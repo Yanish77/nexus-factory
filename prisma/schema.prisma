@@ -14,17 +14,19 @@ model User {
 }
 
 model WorkflowRun {
-  id          String          @id @default(cuid())
-  name        String
-  status      WorkflowStatus  @default(PENDING)
-  dryRun      Boolean         @default(true)
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  actions     AgentAction[]
-  events      Event[]
-  modelCalls  ModelCall[]
-  toolCalls   ToolCall[]
-  approvals   ApprovalRequest[]
+  id            String          @id @default(cuid())
+  name          String
+  status        WorkflowStatus  @default(PENDING)
+  dryRun        Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  actions       AgentAction[]
+  events        Event[]
+  modelCalls    ModelCall[]
+  modelCallLogs ModelCallLog[]
+  toolCalls     ToolCall[]
+  approvals     ApprovalRequest[]
+  agentRuns     AgentRun[]
 }
 
 model Agent {
@@ -38,8 +40,42 @@ model Agent {
   actions            AgentAction[]
   events             Event[]
   modelCalls         ModelCall[]
+  modelCallLogs      ModelCallLog[]
   toolCalls          ToolCall[]
   approvals          ApprovalRequest[]
+  agentRuns          AgentRun[]
+}
+
+model AgentRun {
+  id            String         @id @default(cuid())
+  workflowRunId String
+  agentId       String
+  status        AgentRunStatus @default(RUNNING)
+  dryRun        Boolean        @default(true)
+  inputJson     Json
+  outputJson    Json?
+  error         String?
+  createdAt     DateTime       @default(now())
+  completedAt   DateTime?
+  workflowRun   WorkflowRun    @relation(fields: [workflowRunId], references: [id])
+  agent         Agent          @relation(fields: [agentId], references: [id])
+  modelCallLogs ModelCallLog[]
+}
+
+model ModelCallLog {
+  id            String      @id @default(cuid())
+  agentRunId    String
+  workflowRunId String
+  agentId       String
+  provider      String
+  model         String
+  dryRun        Boolean     @default(true)
+  inputJson     Json
+  outputJson    Json
+  createdAt     DateTime    @default(now())
+  agentRun      AgentRun    @relation(fields: [agentRunId], references: [id])
+  workflowRun   WorkflowRun @relation(fields: [workflowRunId], references: [id])
+  agent         Agent       @relation(fields: [agentId], references: [id])
 }
 
 model AgentAction {
@@ -131,6 +167,13 @@ enum WorkflowStatus {
 
 enum ActionStatus {
   PENDING
+  RUNNING
+  COMPLETED
+  BLOCKED
+  FAILED
+}
+
+enum AgentRunStatus {
   RUNNING
   COMPLETED
   BLOCKED
