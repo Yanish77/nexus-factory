@@ -140,18 +140,41 @@ Never commit `.env.hostinger`, production secrets, or backup files.
 
 ## Smoke Test
 
+The smoke test is safe for production-style dry-run deployments. It does not require
+live Etsy, Printify, payment, email, publishing, or deployment credentials.
+
 The smoke test checks:
 
 - Docker Compose config is valid.
-- Nexus health endpoint responds.
-- Nexus can reach Hermes over the internal Docker network when Hermes is enabled.
 - Hermes port `8642` is not publicly exposed.
 - Redis, Postgres, and worker services are healthy.
+- Nexus health endpoint responds.
+- Optional database, queue, and worker health API endpoints if they exist.
+- Hermes health through the Nexus backend.
+- Event API.
+- Agent status API.
+- Dry-run workflow trigger.
+- Approval inbox API.
+- Cost/model routing API.
+- Nexus can reach Hermes over the internal Docker network when Hermes is enabled.
 
 Run:
 
 ```bash
 sh scripts/smoke-hostinger.sh
+```
+
+By default the script checks `http://127.0.0.1:${NEXUS_WEB_PORT:-3000}` from the VPS.
+If Nexus is only reachable through the public Traefik hostname, pass `NEXUS_BASE_URL`:
+
+```bash
+NEXUS_BASE_URL="https://your-nexus-host.example" sh scripts/smoke-hostinger.sh
+```
+
+You can also override the compose and environment files:
+
+```bash
+COMPOSE_FILE=docker-compose.hostinger.yml ENV_FILE=.env.hostinger sh scripts/smoke-hostinger.sh
 ```
 
 ## Notes
