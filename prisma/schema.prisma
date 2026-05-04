@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model WorkflowRun {
+  id          String          @id @default(cuid())
+  name        String
+  status      WorkflowStatus  @default(PENDING)
+  dryRun      Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  actions     AgentAction[]
+  events      Event[]
+  modelCalls  ModelCall[]
+  toolCalls   ToolCall[]
+  approvals   ApprovalRequest[]
+}
+
+model Agent {
+  id                 String        @id @default(cuid())
+  key                String        @unique
+  name               String
+  role               String
+  defaultModel       String
+  canUsePremiumModel Boolean       @default(false)
+  createdAt          DateTime      @default(now())
+  actions            AgentAction[]
+  events             Event[]
+  modelCalls         ModelCall[]
+  toolCalls          ToolCall[]
+  approvals          ApprovalRequest[]
+}
+
+model AgentAction {
+  id            String       @id @default(cuid())
+  workflowRunId String
+  agentId       String
+  type          String
+  status        ActionStatus @default(PENDING)
+  inputJson     Json
+  outputJson    Json?
+  createdAt     DateTime     @default(now())
+  workflowRun   WorkflowRun  @relation(fields: [workflowRunId], references: [id])
+  agent         Agent        @relation(fields: [agentId], references: [id])
+}
+
+model Event {
+  id            String      @id @default(cuid())
+  workflowRunId String
+  agentId       String?
+  type          String
+  message       String
+  metadataJson  Json
+  createdAt     DateTime    @default(now())
+  workflowRun   WorkflowRun @relation(fields: [workflowRunId], references: [id])
+  agent         Agent?      @relation(fields: [agentId], references: [id])
+}
+
+model ModelCall {
+  id            String     @id @default(cuid())
+  workflowRunId String
+  agentId       String
+  model         String
+  purpose       String
+  inputTokens   Int        @default(0)
+  outputTokens  Int        @default(0)
+  estimatedCost Decimal    @default(0)
+  status        CallStatus @default(PENDING)
+  createdAt     DateTime   @default(now())
+  workflowRun   WorkflowRun @relation(fields: [workflowRunId], references: [id])
+  agent         Agent      @relation(fields: [agentId], references: [id])
+}
+
+model ToolCall {
+  id            String     @id @default(cuid())
+  workflowRunId String
+  agentId       String
+  toolName      String
+  dryRun        Boolean    @default(true)
+  inputJson     Json
+  outputJson    Json
+  status        CallStatus @default(PENDING)
+  createdAt     DateTime   @default(now())
+  workflowRun   WorkflowRun @relation(fields: [workflowRunId], references: [id])
+  agent         Agent      @relation(fields: [agentId], references: [id])
+}
+
+model ApprovalRequest {
+  id                 String         @id @default(cuid())
+  workflowRunId      String
+  requestedByAgentId String
+  actionType         RiskyAction
+  status             ApprovalStatus @default(PENDING)
+  riskLevel          RiskLevel
+  summary            String
+  payloadJson        Json
+  decidedAt          DateTime?
+  createdAt          DateTime       @default(now())
+  workflowRun        WorkflowRun    @relation(fields: [workflowRunId], references: [id])
+  requestedByAgent   Agent          @relation(fields: [requestedByAgentId], references: [id])
+}
+
+model BudgetLimit {
+  id               String      @id @default(cuid())
+  scope            BudgetScope
+  scopeId          String?
+  maxModelCalls    Int
+  maxEstimatedCost Decimal
+  createdAt        DateTime    @default(now())
+}
+
+enum WorkflowStatus {
+  PENDING
+  RUNNING
+  WAITING_FOR_APPROVAL
+  COMPLETED
+  FAILED
+  CANCELED
+}
+
+enum ActionStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  BLOCKED
+  FAILED
+}
+
+enum CallStatus {
+  PENDING
+  COMPLETED
+  BLOCKED
+  FAILED
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum RiskyAction {
+  LIVE_PRODUCT_PUBLISHING
+  SPEND_MONEY
+  CUSTOMER_MESSAGE
+  REFUND
+  PRODUCTION_DEPLOY
+  API_CREDENTIAL_CHANGE
+  MODEL_ROUTING_CHANGE
+}
+
+enum BudgetScope {
+  GLOBAL
+  WORKFLOW
+  AGENT
+}

@@ -1,0 +1,33 @@
+{
+  "name": "nexus-factory",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "NODE_OPTIONS='--require ./scripts/rollup-wasm-register.cjs' vitest run"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.18.0",
+    "bullmq": "^5.63.0",
+    "ioredis": "^5.8.2",
+    "next": "^16.0.1",
+    "prisma": "^6.18.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@rollup/wasm-node": "4.60.2",
+    "@tailwindcss/postcss": "^4.1.16",
+    "@types/node": "^24.9.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "tailwindcss": "^4.1.16",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}
