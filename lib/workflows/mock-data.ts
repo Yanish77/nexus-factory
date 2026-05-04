@@ -1,5 +1,6 @@
 import { agents } from "@/lib/agents/definitions";
 import { listEvents, type EventRecord } from "@/lib/events/event-log";
+import { getLatestPodWorkflow } from "@/lib/workflows/pod-workflow";
 
 export type WorkflowSummary = {
   id: string;
@@ -17,17 +18,13 @@ export const mockWorkflow: WorkflowSummary = {
   progress: 42,
 };
 
-export const mockEvents: EventRecord[] = listEvents(mockWorkflow.id);
+const latestPodWorkflow = getLatestPodWorkflow();
 
-export const mockApprovals = [
-  {
-    id: "approval_publish_demo",
-    actionType: "LIVE_PRODUCT_PUBLISHING",
-    status: "pending",
-    riskLevel: "high",
-    summary: "Publishing a product requires human approval. No live action has run.",
-  },
-];
+export const mockEvents: EventRecord[] = listEvents(latestPodWorkflow.workflowRunId);
+
+export const mockApprovals = [latestPodWorkflow.approvalRequest];
+
+export const mockDraftListings = [latestPodWorkflow.draftListing];
 
 export const mockCosts = {
   modelCalls: 6,
