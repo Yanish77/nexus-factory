@@ -11,6 +11,7 @@ import type {
   ModelCallLogRecord,
 } from "@/lib/agents/types";
 import { toolRegistry, type ToolExecutionResult } from "@/lib/tools/registry";
+import { addAgentRun, addModelCallLog } from "@/lib/runtime/store";
 
 export type AgentRuntimeInput = {
   workflowRunId: string;
@@ -134,6 +135,7 @@ export function runAgent(input: AgentRuntimeInput): AgentRuntimeResult {
       }),
     );
 
+    addAgentRun(agentRun);
     return {
       agentRun,
       events,
@@ -210,6 +212,8 @@ export function runAgent(input: AgentRuntimeInput): AgentRuntimeResult {
   }
 
   agentRun.completedAt = new Date().toISOString();
+  addAgentRun(agentRun);
+  addModelCallLog(modelCallLog);
 
   return {
     agentRun,

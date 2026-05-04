@@ -1,5 +1,6 @@
 import { appendEvent, type EventRecord } from "@/lib/events/event-log";
 import { runAgent, type AgentRuntimeResult } from "@/lib/agents/runtime";
+import { addApprovalRequest, createTask, updateTaskStatus } from "@/lib/runtime/store";
 
 export type ProductNiche = {
   id: string;
@@ -161,6 +162,13 @@ const globalPodWorkflowStore = globalThis as typeof globalThis & {
 export function runDryRunPodWorkflow(workflowRunId = defaultWorkflowRunId): PodWorkflowResult {
   const events: EventRecord[] = [];
   const agentRuns: AgentRuntimeResult[] = [];
+  const task = createTask({
+    workflowRunId,
+    title: "Dry-run print-on-demand mission",
+    status: "running",
+    source: "worker",
+    metadata: { dryRun: true },
+  });
 
   events.push(
     emit(workflowRunId, {
@@ -287,6 +295,7 @@ export function runDryRunPodWorkflow(workflowRunId = defaultWorkflowRunId): PodW
     status: "pending",
     summary: "Approve mock publishing for the draft listing. Real publishing remains disabled.",
   };
+  addApprovalRequest(approvalRequest);
   events.push(
     emit(workflowRunId, {
       agentKey: "store-ops",
@@ -307,6 +316,10 @@ export function runDryRunPodWorkflow(workflowRunId = defaultWorkflowRunId): PodW
     events,
   };
   globalPodWorkflowStore.nexusFactoryLatestPodWorkflow = result;
+  updateTaskStatus(task.id, "completed", {
+    approvalRequestId: approvalRequest.id,
+    listingId: draftListing.id,
+  });
 
   return result;
 }
