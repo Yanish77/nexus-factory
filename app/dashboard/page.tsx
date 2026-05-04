@@ -1,5 +1,6 @@
 import { PageShell } from "@/components/page-shell";
 import { StatusCard } from "@/components/status-card";
+import { DeepCommsFeed } from "@/components/deep-comms-feed";
 import { agents, mockApprovals, mockCosts, mockEvents, mockWorkflow } from "@/lib/workflows/mock-data";
 
 export default function DashboardPage() {
@@ -15,17 +16,7 @@ export default function DashboardPage() {
         <StatusCard label="Budget" value={`$${mockCosts.estimatedCost}`} detail="Mock model spend" />
       </div>
 
-      <section className="rounded border border-stone-300 bg-white p-5">
-        <h2 className="text-lg font-semibold">Recent events</h2>
-        <div className="mt-4 space-y-3">
-          {mockEvents.map((event) => (
-            <div className="border-l-4 border-emerald-600 pl-3" key={event.id}>
-              <p className="font-medium">{event.message}</p>
-              <p className="text-sm text-stone-600">{event.type}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <DeepCommsFeed initialEvents={mockEvents} />
 
       <section className="rounded border border-stone-300 bg-white p-5">
         <h2 className="text-lg font-semibold">Pending approvals</h2>
