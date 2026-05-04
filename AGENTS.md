@@ -47,6 +47,17 @@ Start with an Etsy/Printify-style print-on-demand workflow in draft-only mode.
 - QA Agent: policy, copyright, and quality review, `gpt-5.4-mini`
 - Store Ops Agent: order and status drafts, `gpt-5.4-mini`
 
+## Review guidelines
+
+- Check that no secrets are committed.
+- Check that all live external actions are approval-gated.
+- Check that non-Ultron agents cannot use `gpt-5.5`.
+- Check that budget caps are enforced.
+- Check that all agent actions are logged.
+- Check that dry-run mode is default.
+- Check that API routes validate input.
+- Check that model outputs are structured and validated.
+
 ## Verification
 
 Before finishing a change, run the most relevant available checks and summarize what passed, what failed, and what could not be run.
