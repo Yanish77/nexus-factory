@@ -23,7 +23,7 @@ services:
       AUTONOMY_LEVEL: ${AUTONOMY_LEVEL:-supervised}
       MODEL_SUPERVISOR: ${MODEL_SUPERVISOR:-gpt-5.5}
       MODEL_SPECIALIST_DEFAULT: ${MODEL_SPECIALIST_DEFAULT:-gpt-5.4-mini}
-      HERMES_ENABLED: ${HERMES_ENABLED:-true}
+      HERMES_ENABLED: "true"
       HERMES_API_URL: http://hermes-ultron:8642/v1
       HERMES_API_KEY: ${HERMES_API_KEY:-nexus-hermes-local-only-change-me}
       NEXUS_MCP_TOKEN: ${NEXUS_MCP_TOKEN:-nexus-mcp-local-only-change-me}
@@ -67,7 +67,7 @@ services:
       DRY_RUN_DEFAULT: ${DRY_RUN_DEFAULT:-true}
       APPROVAL_SYSTEM_ENABLED: ${APPROVAL_SYSTEM_ENABLED:-true}
       AUTONOMY_LEVEL: ${AUTONOMY_LEVEL:-supervised}
-      HERMES_ENABLED: ${HERMES_ENABLED:-true}
+      HERMES_ENABLED: "true"
       HERMES_API_URL: http://hermes-ultron:8642/v1
       HERMES_API_KEY: ${HERMES_API_KEY:-nexus-hermes-local-only-change-me}
       NEXUS_MCP_TOKEN: ${NEXUS_MCP_TOKEN:-nexus-mcp-local-only-change-me}
