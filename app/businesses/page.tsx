@@ -18,7 +18,7 @@ export default function BusinessesPage() {
             <article className="border-l-4 border-emerald-600 pl-3" key={listing.id}>
               <p className="font-medium">{listing.title}</p>
               <p className="text-sm text-stone-600">
-                {listing.status} · {listing.niche.name}
+                {listing.status} - {listing.niche.name}
               </p>
             </article>
           ))}
