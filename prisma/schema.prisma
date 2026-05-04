@@ -59,7 +59,7 @@ model Event {
   id            String      @id @default(cuid())
   workflowRunId String
   agentId       String?
-  type          String
+  type          EventType
   message       String
   metadataJson  Json
   createdAt     DateTime    @default(now())
@@ -171,4 +171,17 @@ enum BudgetScope {
   GLOBAL
   WORKFLOW
   AGENT
+}
+
+enum EventType {
+  AGENT_STARTED
+  AGENT_COMPLETED
+  AGENT_FAILED
+  TASK_CREATED
+  TASK_COMPLETED
+  APPROVAL_REQUESTED
+  APPROVAL_APPROVED
+  APPROVAL_REJECTED
+  MODEL_CALL_LOGGED
+  BUDGET_LIMIT_HIT
 }
