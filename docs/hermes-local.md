@@ -57,3 +57,25 @@ pnpm hermes:down
 ```
 
 Hermes listens on `127.0.0.1:8642` for local development only.
+
+## Safe Nexus Tools
+
+Phase 3 exposes safe Nexus tools through internal server-side REST endpoints. MCP can be added later if the project adopts a dedicated MCP server.
+
+```http
+POST /api/hermes/tools/{tool}
+Authorization: Bearer <NEXUS_MCP_TOKEN>
+Content-Type: application/json
+```
+
+Request body:
+
+```json
+{
+  "workflowRunId": "wf_hermes_tools",
+  "autonomyLevel": "observe",
+  "input": {}
+}
+```
+
+Allowed tools are `get_agent_status`, `get_today_events`, `get_cost_summary`, `get_pending_approvals`, `create_internal_task`, `create_approval_request`, `request_ultron_review`, and `pause_agent`. Approval requests created by Hermes remain pending and never execute the requested action automatically.
