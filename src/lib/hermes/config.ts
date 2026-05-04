@@ -24,3 +24,7 @@ export function getHermesConfig(env: NodeJS.ProcessEnv = process.env): HermesCon
     timeoutMs: parseTimeout(env.HERMES_TIMEOUT_MS),
   };
 }
+
+export function getNexusMcpToken(env: NodeJS.ProcessEnv = process.env) {
+  return env.NEXUS_MCP_TOKEN || undefined;
+}
