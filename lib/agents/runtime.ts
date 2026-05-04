@@ -15,7 +15,7 @@ export function runMockAgentAction(input: {
     createEvent({
       workflowRunId: input.workflowRunId,
       agentKey: input.agentKey,
-      type: "agent_action_started",
+      type: "agent.started",
       message: `${input.agentKey} started ${input.purpose}.`,
       metadata: { model: route.model },
     }),
@@ -28,7 +28,7 @@ export function runMockAgentAction(input: {
         createEvent({
           workflowRunId: input.workflowRunId,
           agentKey: input.agentKey,
-          type: "approval_requested",
+          type: "approval.requested",
           message: approval.reason,
           metadata: { actionType: input.riskyAction },
         }),
@@ -54,7 +54,7 @@ export function runMockAgentAction(input: {
     createEvent({
       workflowRunId: input.workflowRunId,
       agentKey: input.agentKey,
-      type: "tool_call_completed",
+      type: "agent.completed",
       message: "Mock tool call completed in dry-run mode.",
       metadata: { toolName: toolCall.toolName, dryRun: toolCall.dryRun },
     }),
