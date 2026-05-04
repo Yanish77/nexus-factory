@@ -85,3 +85,33 @@ export type HermesChatCompletion = {
   usage?: unknown;
   raw: unknown;
 };
+
+export type HermesAutonomyLevel = "observe" | "assist" | "supervised";
+
+export type HermesToolName =
+  | "get_agent_status"
+  | "get_today_events"
+  | "get_cost_summary"
+  | "get_pending_approvals"
+  | "create_internal_task"
+  | "create_approval_request"
+  | "request_ultron_review"
+  | "pause_agent";
+
+export type HermesToolContext = {
+  workflowRunId?: string;
+  autonomyLevel?: HermesAutonomyLevel;
+  now?: Date;
+};
+
+export type HermesToolResult<T = unknown> = {
+  ok: boolean;
+  tool: HermesToolName;
+  executed: boolean;
+  requiresApproval: boolean;
+  data?: T;
+  error?: {
+    code: string;
+    message: string;
+  };
+};
