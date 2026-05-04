@@ -1,0 +1,13 @@
+services:
+  hermes:
+    image: nousresearch/hermes-agent:latest
+    command: gateway run
+    environment:
+      HERMES_API_KEY: ${HERMES_API_KEY:-}
+      NEXUS_MCP_TOKEN: ${NEXUS_MCP_TOKEN:-}
+      HERMES_PUBLIC_DASHBOARD: ${HERMES_PUBLIC_DASHBOARD:-false}
+    ports:
+      - "127.0.0.1:8642:8642"
+    volumes:
+      - ./runtime/hermes-ultron:/opt/data
+    restart: unless-stopped
