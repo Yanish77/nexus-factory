@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { appendEvent, isEventType, listEvents, type CreateEventInput } from "@/lib/events/event-log";
+import { appendEvent, isEventType, listEventsFromDatabase, type CreateEventInput } from "@/lib/events/event-log";
 import { agents, type AgentKey } from "@/lib/agents/definitions";
 
 function isAgentKey(value: unknown): value is AgentKey {
@@ -10,11 +10,11 @@ function isMetadata(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-export function GET(request: Request) {
+export async function GET(request: Request) {
   const url = new URL(request.url);
   const workflowRunId = url.searchParams.get("workflowRunId") ?? undefined;
 
-  return NextResponse.json({ events: listEvents(workflowRunId) });
+  return NextResponse.json({ events: await listEventsFromDatabase(workflowRunId) });
 }
 
 export async function POST(request: Request) {
