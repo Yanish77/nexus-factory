@@ -1,5 +1,5 @@
 import { agents } from "@/lib/agents/definitions";
-import { createEvent, type EventRecord } from "@/lib/events/event-log";
+import { listEvents, type EventRecord } from "@/lib/events/event-log";
 
 export type WorkflowSummary = {
   id: string;
@@ -17,29 +17,7 @@ export const mockWorkflow: WorkflowSummary = {
   progress: 42,
 };
 
-export const mockEvents: EventRecord[] = [
-  createEvent({
-    workflowRunId: mockWorkflow.id,
-    agentKey: "ultron",
-    type: "workflow_started",
-    message: "Ultron started a draft-only workflow.",
-    metadata: { dryRun: true },
-  }),
-  createEvent({
-    workflowRunId: mockWorkflow.id,
-    agentKey: "trend-scout",
-    type: "agent_action",
-    message: "Trend Scout produced mock niche research.",
-    metadata: { source: "mock" },
-  }),
-  createEvent({
-    workflowRunId: mockWorkflow.id,
-    agentKey: "qa",
-    type: "approval_requested",
-    message: "QA flagged live publishing as approval-gated.",
-    metadata: { actionType: "LIVE_PRODUCT_PUBLISHING" },
-  }),
-];
+export const mockEvents: EventRecord[] = listEvents(mockWorkflow.id);
 
 export const mockApprovals = [
   {
