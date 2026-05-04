@@ -7,7 +7,7 @@ services:
       git clone --depth 1 https://github.com/Yanish77/nexus-factory.git /tmp/nexus-factory &&
       cd /tmp/nexus-factory &&
       corepack enable &&
-      pnpm install --frozen-lockfile &&
+      pnpm install --no-frozen-lockfile &&
       pnpm prisma generate &&
       pnpm prisma db push &&
       pnpm build &&
@@ -55,7 +55,7 @@ services:
       git clone --depth 1 https://github.com/Yanish77/nexus-factory.git /tmp/nexus-factory &&
       cd /tmp/nexus-factory &&
       corepack enable &&
-      pnpm install --frozen-lockfile &&
+      pnpm install --no-frozen-lockfile &&
       pnpm prisma generate &&
       touch /tmp/nexus-worker-ready &&
       node -e \"setInterval(() => process.stdout.write('nexus-worker heartbeat\\n'), 30000)\""
