@@ -47,6 +47,18 @@ Start with an Etsy/Printify-style print-on-demand workflow in draft-only mode.
 - QA Agent: policy, copyright, and quality review, `gpt-5.4-mini`
 - Store Ops Agent: order and status drafts, `gpt-5.4-mini`
 
+## Hermes Agent integration
+
+- Hermes is an optional operations sidecar for Nexus Factory.
+- Hermes may remember project context, summarize activity, run audits, and create internal tasks.
+- Hermes may request Ultron review and create approval requests.
+- Hermes may not directly publish products, spend money, refund customers, message customers, change store settings, change credentials, deploy production, or bypass approvals.
+- Nexus backend remains the authority for all permissions, approvals, budgets, and business actions.
+- Hermes should use safe tools only.
+- Hermes must not receive Etsy, Printify, payment, email, production database, or deployment credentials.
+- Hermes API must not be publicly exposed without authentication, firewalling, and reverse proxy protection.
+- Local and staging deployments must default to dry-run mode.
+
 ## Review guidelines
 
 - Check that no secrets are committed.
@@ -57,6 +69,12 @@ Start with an Etsy/Printify-style print-on-demand workflow in draft-only mode.
 - Check that dry-run mode is default.
 - Check that API routes validate input.
 - Check that model outputs are structured and validated.
+
+## Hermes testing requirements
+
+- Add tests proving Hermes cannot call forbidden actions.
+- Add tests proving Hermes-created actions go through approval gates.
+- Add tests proving Hermes is optional and the app still works when Hermes is disabled.
 
 ## Verification
 
