@@ -10,6 +10,7 @@ export default function ApprovalsPage() {
             <h2 className="font-semibold">{approval.actionType}</h2>
             <p className="mt-2 text-sm text-stone-700">{approval.summary}</p>
             <p className="mt-3 text-sm">Status: {approval.status}</p>
+            <p className="mt-1 text-sm text-stone-600">Listing: {approval.listingId}</p>
           </article>
         ))}
       </div>
