@@ -24,6 +24,6 @@ describe("mock agent runtime auditing", () => {
 
     expect(result.status).toBe("blocked");
     expect(result.toolCall).toBeNull();
-    expect(result.events.some((event) => event.type === "approval_requested")).toBe(true);
+    expect(result.events.some((event) => event.type === "approval.requested")).toBe(true);
   });
 });
