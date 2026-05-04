@@ -5,6 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "hermes:up": "docker compose -f docker-compose.hermes.local.yml up -d",
+    "hermes:down": "docker compose -f docker-compose.hermes.local.yml down",
+    "hermes:logs": "docker compose -f docker-compose.hermes.local.yml logs -f hermes",
+    "hermes:setup": "docker compose -f docker-compose.hermes.local.yml run --rm hermes gateway setup",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
