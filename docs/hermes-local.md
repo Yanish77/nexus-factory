@@ -36,6 +36,8 @@ pnpm hermes:setup
 
 This uses `nousresearch/hermes-agent:latest` and stores local Hermes runtime data under `./runtime/hermes-ultron`, mounted into the container at `/opt/data`.
 
+The local compose file enables the Hermes gateway API inside the container and binds it to `127.0.0.1:8642` on your machine. Keep that binding local-only.
+
 ## Start And Stop
 
 Start Hermes locally:

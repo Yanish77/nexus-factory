@@ -78,7 +78,7 @@ Hermes must remain internal to Docker. Do not add a `ports` mapping for `hermes-
 ## Services
 
 - `nexus-web`: public Next.js web app on `${NEXUS_WEB_PORT:-3000}`.
-- `nexus-worker`: background worker placeholder for queue processing.
+- `nexus-worker`: BullMQ worker that consumes dry-run workflow jobs.
 - `postgres`: persistent Postgres database.
 - `redis`: persistent Redis queue/cache service.
 - `hermes-ultron`: internal Hermes sidecar on Docker network port `8642`.
@@ -152,7 +152,9 @@ The smoke test checks:
 - Optional database, queue, and worker health API endpoints if they exist.
 - Hermes health through the Nexus backend.
 - Event API.
+- Task list API.
 - Agent status API.
+- Agent runs API.
 - Dry-run workflow trigger.
 - Approval inbox API.
 - Cost/model routing API.

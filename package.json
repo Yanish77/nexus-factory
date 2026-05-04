@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "hermes:up": "docker compose -f docker-compose.hermes.local.yml up -d",
     "hermes:down": "docker compose -f docker-compose.hermes.local.yml down",
     "hermes:logs": "docker compose -f docker-compose.hermes.local.yml logs -f hermes",
     "hermes:setup": "docker compose -f docker-compose.hermes.local.yml run --rm hermes gateway setup",
+    "worker": "node scripts/nexus-worker.cjs",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
@@ -25,6 +26,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@next/swc-wasm-nodejs": "16.2.4",
     "@rollup/wasm-node": "4.60.2",
     "@tailwindcss/postcss": "^4.1.16",
     "@types/node": "^24.9.2",

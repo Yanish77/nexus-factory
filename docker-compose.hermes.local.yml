@@ -3,6 +3,10 @@ services:
     image: nousresearch/hermes-agent:latest
     command: gateway run
     environment:
+      API_SERVER_ENABLED: "true"
+      API_SERVER_HOST: 0.0.0.0
+      API_SERVER_PORT: 8642
+      API_SERVER_KEY: ${HERMES_API_KEY:-}
       HERMES_API_KEY: ${HERMES_API_KEY:-}
       NEXUS_MCP_TOKEN: ${NEXUS_MCP_TOKEN:-}
       HERMES_PUBLIC_DASHBOARD: ${HERMES_PUBLIC_DASHBOARD:-false}
