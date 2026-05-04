@@ -15,7 +15,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
-      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_factory}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus}:${POSTGRES_PASSWORD:-nexus_factory_change_me}@postgres:5432/${POSTGRES_DB:-nexus_factory}?schema=public
       REDIS_URL: redis://redis:6379
       LIVE_MODE: ${LIVE_MODE:-false}
       DRY_RUN_DEFAULT: ${DRY_RUN_DEFAULT:-true}
@@ -23,10 +23,10 @@ services:
       AUTONOMY_LEVEL: ${AUTONOMY_LEVEL:-supervised}
       MODEL_SUPERVISOR: ${MODEL_SUPERVISOR:-gpt-5.5}
       MODEL_SPECIALIST_DEFAULT: ${MODEL_SPECIALIST_DEFAULT:-gpt-5.4-mini}
-      HERMES_ENABLED: ${HERMES_ENABLED:-false}
+      HERMES_ENABLED: ${HERMES_ENABLED:-true}
       HERMES_API_URL: http://hermes-ultron:8642/v1
-      HERMES_API_KEY: ${HERMES_API_KEY:-}
-      NEXUS_MCP_TOKEN: ${NEXUS_MCP_TOKEN:-}
+      HERMES_API_KEY: ${HERMES_API_KEY:-nexus-hermes-local-only-change-me}
+      NEXUS_MCP_TOKEN: ${NEXUS_MCP_TOKEN:-nexus-mcp-local-only-change-me}
       HERMES_PUBLIC_DASHBOARD: ${HERMES_PUBLIC_DASHBOARD:-false}
       HERMES_PUBLIC_URL: ${HERMES_PUBLIC_URL:-}
       HERMES_PUBLIC_EXPOSURE_ACK: ${HERMES_PUBLIC_EXPOSURE_ACK:-false}
@@ -61,16 +61,16 @@ services:
       node -e \"setInterval(() => process.stdout.write('nexus-worker heartbeat\\n'), 30000)\""
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_factory}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus}:${POSTGRES_PASSWORD:-nexus_factory_change_me}@postgres:5432/${POSTGRES_DB:-nexus_factory}?schema=public
       REDIS_URL: redis://redis:6379
       LIVE_MODE: ${LIVE_MODE:-false}
       DRY_RUN_DEFAULT: ${DRY_RUN_DEFAULT:-true}
       APPROVAL_SYSTEM_ENABLED: ${APPROVAL_SYSTEM_ENABLED:-true}
       AUTONOMY_LEVEL: ${AUTONOMY_LEVEL:-supervised}
-      HERMES_ENABLED: ${HERMES_ENABLED:-false}
+      HERMES_ENABLED: ${HERMES_ENABLED:-true}
       HERMES_API_URL: http://hermes-ultron:8642/v1
-      HERMES_API_KEY: ${HERMES_API_KEY:-}
-      NEXUS_MCP_TOKEN: ${NEXUS_MCP_TOKEN:-}
+      HERMES_API_KEY: ${HERMES_API_KEY:-nexus-hermes-local-only-change-me}
+      NEXUS_MCP_TOKEN: ${NEXUS_MCP_TOKEN:-nexus-mcp-local-only-change-me}
       HERMES_PUBLIC_DASHBOARD: ${HERMES_PUBLIC_DASHBOARD:-false}
       HERMES_PUBLIC_URL: ${HERMES_PUBLIC_URL:-}
       HERMES_PUBLIC_EXPOSURE_ACK: ${HERMES_PUBLIC_EXPOSURE_ACK:-false}
@@ -92,7 +92,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-nexus_factory}
       POSTGRES_USER: ${POSTGRES_USER:-nexus}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nexus_factory_change_me}
     volumes:
       - postgres-data-v2:/var/lib/postgresql/data
     healthcheck:
@@ -118,8 +118,8 @@ services:
     image: nousresearch/hermes-agent:latest
     command: gateway run
     environment:
-      HERMES_API_KEY: ${HERMES_API_KEY:-}
-      NEXUS_MCP_TOKEN: ${NEXUS_MCP_TOKEN:-}
+      HERMES_API_KEY: ${HERMES_API_KEY:-nexus-hermes-local-only-change-me}
+      NEXUS_MCP_TOKEN: ${NEXUS_MCP_TOKEN:-nexus-mcp-local-only-change-me}
       HERMES_PUBLIC_DASHBOARD: ${HERMES_PUBLIC_DASHBOARD:-false}
       HERMES_PUBLIC_URL: ${HERMES_PUBLIC_URL:-}
       HERMES_PUBLIC_EXPOSURE_ACK: ${HERMES_PUBLIC_EXPOSURE_ACK:-false}
