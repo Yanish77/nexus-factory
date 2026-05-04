@@ -1,9 +1,13 @@
 import { PageShell } from "@/components/page-shell";
 import { StatusCard } from "@/components/status-card";
 import { DeepCommsFeed } from "@/components/deep-comms-feed";
+import { HermesPanel } from "@/components/hermes-panel";
 import { agents, mockApprovals, mockCosts, mockEvents, mockWorkflow } from "@/lib/workflows/mock-data";
+import { getHermesDashboardStatus } from "@/src/lib/hermes/dashboard";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const hermesStatus = await getHermesDashboardStatus();
+
   return (
     <PageShell
       title="Dashboard"
@@ -17,6 +21,8 @@ export default function DashboardPage() {
       </div>
 
       <DeepCommsFeed initialEvents={mockEvents} />
+
+      <HermesPanel initialStatus={hermesStatus} />
 
       <section className="rounded border border-stone-300 bg-white p-5">
         <h2 className="text-lg font-semibold">Pending approvals</h2>
