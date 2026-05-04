@@ -170,6 +170,7 @@ enum RiskyAction {
 enum BudgetScope {
   GLOBAL
   WORKFLOW
+  BUSINESS
   AGENT
 }
 
