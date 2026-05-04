@@ -1,11 +1,15 @@
 services:
   nexus-web:
     image: node:22-alpine
-    working_dir: /app
     command: >
-      sh -lc "corepack enable &&
+      sh -lc "apk add --no-cache git &&
+      rm -rf /tmp/nexus-factory &&
+      git clone --depth 1 https://github.com/Yanish77/nexus-factory.git /tmp/nexus-factory &&
+      cd /tmp/nexus-factory &&
+      corepack enable &&
       pnpm install --frozen-lockfile &&
       pnpm prisma generate &&
+      pnpm prisma db push &&
       pnpm build &&
       pnpm start"
     environment:
@@ -40,16 +44,17 @@ services:
       interval: 30s
       timeout: 5s
       retries: 5
-      start_period: 60s
+      start_period: 180s
     restart: unless-stopped
-    volumes:
-      - .:/app
 
   nexus-worker:
     image: node:22-alpine
-    working_dir: /app
     command: >
-      sh -lc "corepack enable &&
+      sh -lc "apk add --no-cache git &&
+      rm -rf /tmp/nexus-factory &&
+      git clone --depth 1 https://github.com/Yanish77/nexus-factory.git /tmp/nexus-factory &&
+      cd /tmp/nexus-factory &&
+      corepack enable &&
       pnpm install --frozen-lockfile &&
       pnpm prisma generate &&
       touch /tmp/nexus-worker-ready &&
@@ -79,10 +84,8 @@ services:
       interval: 30s
       timeout: 5s
       retries: 5
-      start_period: 45s
+      start_period: 90s
     restart: unless-stopped
-    volumes:
-      - .:/app
 
   postgres:
     image: postgres:16-alpine
